@@ -3,7 +3,7 @@ import pandas as pd
 import re
 
 # 1. Configuración de la página
-st.set_page_config(page_title="Polla Mundial 2026", page_icon="🏆", layout="wide")
+st.set_page_config(page_title="Mundial 2026", page_icon="🏆", layout="wide")
 
 # --- PEGA TU LINK AQUÍ ---
 LINK_GOOGLE_SHEETS = "https://docs.google.com/spreadsheets/d/1cqMfWRdFWjMnVcI_17VMFRblWYHcvbW2VjNS8XdKjwg/edit?gid=539674599#gid=539674599"
@@ -105,4 +105,4 @@ else:
     st.info("Configura el enlace de Google Sheets en el código para comenzar.")
 
 st.divider()
-st.caption("⚽ Datos sincronizados desde Google Sheets.")
+st.caption("⚽ ¡Suerte a todos! "No vale enojarse" ⚽")
