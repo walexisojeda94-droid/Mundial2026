@@ -57,33 +57,47 @@ df_raw = cargar_datos(LINK_GOOGLE_SHEETS)
 
 if df_raw is not None:
     try:
-        # Limpieza básica
         df = df_raw.copy()
         
-        # Validar que existan las columnas
-        if 'Jugador' in df.columns and 'Puntos Totales' in df.columns:
-            df = df.dropna(subset=['Jugador', 'Puntos Totales'])
-            df['Puntos Totales'] = pd.to_numeric(df['Puntos Totales']).fillna(0).astype(int)
+        # --- MEJORA: Limpiar nombres de columnas ---
+        # Esto quita espacios vacíos y pone todo en un formato estándar
+        df.columns = df.columns.astype(str).str.strip()
+        
+        # Buscamos las columnas sin importar si escribiste 'jugador' o 'Jugador'
+        col_jugador = next((c for c in df.columns if c.lower() == 'jugador'), None)
+        col_puntos = next((c for c in df.columns if 'puntos' in c.lower()), None)
+
+        if col_jugador and col_puntos:
+            # Renombramos internamente para que el código funcione siempre
+            df = df.rename(columns={col_jugador: 'Jugador', col_puntos: 'Puntos Totales'})
+            
+            # Quitar filas vacías
+            df = df.dropna(subset=['Jugador'])
+            
+            # Convertir puntos a números (si hay un texto, pone 0)
+            df['Puntos Totales'] = pd.to_numeric(df['Puntos Totales'], errors='coerce').fillna(0).astype(int)
             
             # Ordenar
             df = df.sort_values(by="Puntos Totales", ascending=False).reset_index(drop=True)
             df['Pos'] = df.index + 1
             df['Pos'] = df['Pos'].apply(lambda x: f"🥇 {x}" if x == 1 else (f"🥈 {x}" if x == 2 else (f"🥉 {x}" if x == 3 else f"{x}")))
 
-            # Métricas
+            # Mostrar métricas
             col_a, col_b = st.columns(2)
-            leader = df.iloc[0]
-            col_a.metric("Líder Actual 👑", leader['Jugador'])
-            col_b.metric("Puntos", f"{leader['Puntos Totales']} pts")
+            if not df.empty:
+                leader = df.iloc[0]
+                col_a.metric("Líder Actual 👑", leader['Jugador'])
+                col_b.metric("Puntos", f"{leader['Puntos Totales']} pts")
             
             st.write("---")
 
-            # Tabla
+            # Tabla centrada
             c1, c2, c3 = st.columns([1, 2, 1])
             with c2:
                 st.table(df[['Pos', 'Jugador', 'Puntos Totales']])
         else:
-            st.error("Asegúrate de que las columnas en tu Excel se llamen exactamente 'Jugador' y 'Puntos Totales'")
+            st.error(f"No encontré las columnas. En tu Sheets leí: {list(df.columns)}")
+            st.info("Asegúrate de que la primera fila de la pestaña 'Resultados' tenga los títulos.")
             
     except Exception as e:
         st.error(f"Error al procesar los datos: {e}")
