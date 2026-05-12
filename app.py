@@ -4,17 +4,17 @@ import pandas as pd
 # 1. Configuración de la página
 st.set_page_config(page_title="Mundial 2026", page_icon="🏆", layout="wide")
 
-# --- PEGA AQUÍ TU LINK DE GOOGLE SHEETS ---
-# Solo tienes que reemplazar este link por el tuyo
-LINK_GOOGLE_SHEETS = "https://docs.google.com/spreadsheets/d/1cqMfWRdFWjMnVcI_17VMFRblWYHcvbW2VjNS8XdKjwg/edit?gid=539674599#gid=539674599"
+# --- REEMPLAZA CON TU LINK ---
+LINK_GOOGLE_SHEETS = "TU_LINK_AQUÍ"
 
 def cargar_datos(url):
-    # Esta función transforma el link de compartir en un link de descarga directa
     try:
         sheet_id = url.split("/d/")[1].split("/")[0]
-        url_directa = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=xlsx"
+        # Agregamos '&sheet=Resultados' para que busque esa pestaña específica
+        url_directa = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=xlsx&sheet=Resultados"
         return pd.read_excel(url_directa)
-    except:
+    except Exception as e:
+        st.error(f"Error técnico: {e}")
         return None
 
 # 2. Estilo CSS
@@ -32,20 +32,21 @@ st.markdown("""
 # 3. Cuerpo Principal
 st.write("### 🏆")
 st.title("Gran Juego Mundial Familiar")
-st.markdown("<h4 style='color: #888;'>Ranking en Vivo (Google Sheets)</h4>", unsafe_allow_html=True)
-st.divider()
+st.markdown("<h4 style='color: #888;'>Ranking en Vivo</h4>", unsafe_allow_html=True)
 
-# Botón para forzar actualización
 if st.button('🔄 Actualizar Puntos Ahora'):
     st.cache_data.clear()
+
+st.divider()
 
 # Carga de datos
 df_raw = cargar_datos(LINK_GOOGLE_SHEETS)
 
 if df_raw is not None:
     try:
-        # Limpieza de datos
-        df = df_raw.copy()
+        # Limpieza: quitamos filas vacías que pueda tener el Sheets
+        df = df_raw.dropna(subset=['Jugador', 'Puntos Totales']).copy()
+        
         df['Puntos Totales'] = pd.to_numeric(df['Puntos Totales']).fillna(0).astype(int)
         
         # Ordenar y Posiciones
@@ -67,9 +68,6 @@ if df_raw is not None:
             st.table(df[['Pos', 'Jugador', 'Puntos Totales']])
             
     except Exception as e:
-        st.error("Error: Revisa que las columnas en Google Sheets se llamen 'Jugador' y 'Puntos Totales'")
+        st.error("No encontré los datos. Asegúrate de que en la pestaña 'Resultados' las columnas sean exactamente: Jugador y Puntos Totales")
 else:
-    st.error("No se pudo conectar con Google Sheets. Verifica el link y que sea público.")
-
-st.divider()
-st.caption("⚽ Los datos se sincronizan con Google Sheets.")
+    st.error("No se pudo conectar. Verifica que el Google Sheets sea 'Público - Cualquier persona con el enlace'.")
