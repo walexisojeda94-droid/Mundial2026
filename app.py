@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # 1. Configuración de la página (Título en la pestaña del navegador)
-st.set_page_config(page_title="Polla Mundial 2026", page_icon="🏆", layout="wide")
+st.set_page_config(page_title="Mundial 2026", page_icon="🏆", layout="wide")
 
 # 2. Estilo CSS personalizado para centrar datos y mejorar la visual
 st.markdown("""
