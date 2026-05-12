@@ -4,79 +4,83 @@ import pandas as pd
 # 1. Configuración de la página
 st.set_page_config(page_title="Mundial 2026", page_icon="🏆", layout="wide")
 
-# 2. Estilo CSS mejorado
+# 2. Estilo CSS para centrar y embellecer
 st.markdown("""
     <style>
-    /* Fondo y tipografía */
     .main { background-color: #0e1117; }
-    
-    /* Centrar títulos y textos de tabla */
     h1, h4 { text-align: center; font-family: 'Arial Black', sans-serif; }
+    
+    /* Forzar el centrado total de la tabla y aumentar tamaño de fuente */
+    [data-testid="stTable"] {
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 20px;
+    }
     [data-testid="stTable"] td, [data-testid="stTable"] th {
         text-align: center !important;
         vertical-align: middle !important;
+        padding: 15px !important;
     }
 
-    /* Hacer el cargador de archivos más compacto en la barra lateral */
-    section[data-testid="stSidebar"] {
-        width: 250px !important;
-    }
+    section[data-testid="stSidebar"] { width: 250px !important; }
     </style>
     """, unsafe_allow_html=True)
 
-# --- PANEL DE CARGA (Arriba a la derecha/Lateral) ---
-# Usamos la sidebar para que sea más estético y no ocupe espacio central
+# --- PANEL DE CARGA (Lateral) ---
 with st.sidebar:
     st.header("⚙️ Administración")
     uploaded_file = st.file_uploader("Actualizar Tabla (Excel)", type=["xlsx"])
-    st.info("Sube aquí el archivo para refrescar los puntos de la familia.")
+    st.info("Sube el Excel con las columnas 'Jugador' y 'Puntos Totales'.")
 
 # --- CUERPO PRINCIPAL ---
 st.write("### 🏆")
 st.title("Gran Juego Mundial Familiar")
-st.markdown("<h4 style='color: #888;'>Ranking Oficial de la Fase de Grupos</h4>", unsafe_allow_html=True)
+st.markdown("<h4 style='color: #888;'>Ranking de Posiciones</h4>", unsafe_allow_html=True)
 st.divider()
 
 if uploaded_file is not None:
     try:
         df = pd.read_excel(uploaded_file)
-        required_cols = ['Jugador', 'Puntos Totales', 'Aciertos Exactos', 'Partidos Acertados']
+        # Ahora solo requerimos estas dos columnas
+        required_cols = ['Jugador', 'Puntos Totales']
         
         if all(col in df.columns for col in required_cols):
-            # Lógica de orden y posiciones
-            df = df.sort_values(by=["Puntos Totales", "Aciertos Exactos"], ascending=False).reset_index(drop=True)
+            # Limpieza de datos vacíos
+            df['Puntos Totales'] = df['Puntos Totales'].fillna(0).astype(int)
+            
+            # Ordenar por puntaje
+            df = df.sort_values(by="Puntos Totales", ascending=False).reset_index(drop=True)
+            
+            # Crear columna de Posición con medallas
             df['Pos'] = df.index + 1
             df['Pos'] = df['Pos'].apply(lambda x: f"🥇 {x}" if x == 1 else (f"🥈 {x}" if x == 2 else (f"🥉 {x}" if x == 3 else f"{x}")))
 
-            # Métricas destacadas
-            m1, m2, m3 = st.columns(3)
+            # Métricas destacadas (Líder y puntaje)
+            col_a, col_b = st.columns(2)
             leader = df.iloc[0]
-            m1.metric("Líder 👑", leader['Jugador'])
-            m2.metric("Puntos", f"{int(leader['Puntos Totales'])}")
-            m3.metric("Plenos 🎯", f"{int(df['Aciertos Exactos'].max())}")
+            col_a.metric("Líder Actual 👑", leader['Jugador'])
+            col_b.metric("Puntos", f"{leader['Puntos Totales']} pts")
             
             st.write("---")
 
-            # Tabla principal
-            df_display = df[['Pos', 'Jugador', 'Puntos Totales', 'Aciertos Exactos', 'Partidos Acertados']]
-            st.table(df_display)
+            # Tabla simplificada y centrada
+            # Usamos columnas de Streamlit para "centrar" la tabla en el medio de la pantalla
+            col_central_1, col_central_2, col_central_3 = st.columns([1, 2, 1])
+            with col_central_2:
+                df_display = df[['Pos', 'Jugador', 'Puntos Totales']]
+                st.table(df_display)
             
         else:
-            st.error("Error: Las columnas del Excel no coinciden con la plantilla.")
+            st.error("Error: El Excel debe tener las columnas: 'Jugador' y 'Puntos Totales'.")
             
     except Exception as e:
         st.error(f"Error al procesar: {e}")
 else:
-    # Mensaje inicial más limpio
-    st.warning("⚠️ Esperando carga de datos desde el panel lateral.")
-    ejemplo = pd.DataFrame({
-        'Pos': ['-', '-', '-'],
-        'Jugador': ['Esperando...', 'Esperando...', 'Esperando...'],
-        'Puntos Totales': [0, 0, 0],
-        'Aciertos Exactos': [0, 0, 0],
-        'Partidos Acertados': [0, 0, 0]
-    })
-    st.table(ejemplo)
+    st.warning("⚠️ Esperando carga de datos.")
+    ejemplo = pd.DataFrame({'Pos': ['-'], 'Jugador': ['Esperando...'], 'Puntos Totales': [0]})
+    col_e1, col_e2, col_e3 = st.columns([1, 2, 1])
+    with col_e2:
+        st.table(ejemplo)
 
 st.divider()
-st.caption("⚽ Actualizado por el administrador.")
+st.caption("⚽ ¡Suerte a todos!")
