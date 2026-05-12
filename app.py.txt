@@ -1,0 +1,68 @@
+import streamlit as st
+import pandas as pd
+
+# Configuración de la página
+st.set_page_config(page_title="Mundial Familiar 2026", layout="wide")
+
+# Estilo CSS para diseño moderno y deportivo
+st.markdown("""
+    <style>
+    .main {
+        background-color: #f0f2f6;
+    }
+    .stDataFrame {
+        border: 2px solid #1e3d59;
+        border-radius: 10px;
+    }
+    h1 {
+        color: #1e3d59;
+        text-align: center;
+        font-family: 'Arial Black', sans-serif;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+st.title("🏆 Gran Polla Mundialista")
+st.subheader("Tabla de Posiciones en Tiempo Real")
+
+# Contenedor para el botón de carga en la parte superior derecha
+col1, col2 = st.columns([4, 1])
+with col2:
+    uploaded_file = st.file_uploader("Cargar Excel", type=["xlsx", "csv"])
+
+# Lógica de datos
+if uploaded_file is not None:
+    # Leer el archivo (Excel o CSV)
+    try:
+        if uploaded_file.name.endswith('.csv'):
+            df = pd.read_csv(uploaded_file)
+        else:
+            df = pd.read_excel(uploaded_file)
+        
+        # Limpieza y orden de datos
+        df = df.sort_values(by=["Puntos Totales", "Aciertos Exactos"], ascending=False)
+        df['Posición'] = range(1, len(df) + 1)
+        
+        # Mostrar métricas del líder
+        top_player = df.iloc[0]['Jugador']
+        st.success(f"🔥 Líder actual: **{top_player}**")
+
+        # Tabla visual
+        st.table(df[['Posición', 'Jugador', 'Puntos Totales', 'Aciertos Exactos', 'Partidos Acertados']])
+        
+    except Exception as e:
+        st.error(f"Error al leer el archivo: {e}")
+else:
+    st.info("Esperando carga de datos... Por favor, sube el archivo Excel para ver la tabla.")
+    # Ejemplo visual de cómo se vería
+    data_ejemplo = {
+        'Posición': [1, 2],
+        'Jugador': ['Tío Juan', 'Prima Sofía'],
+        'Puntos Totales': [10, 8],
+        'Aciertos Exactos': [2, 1],
+        'Partidos Acertados': [4, 3]
+    }
+    st.table(pd.DataFrame(data_ejemplo))
+
+st.markdown("---")
+st.caption("Actualizado manualmente por el administrador del torneo.")
