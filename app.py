@@ -5,7 +5,7 @@ import pandas as pd
 st.set_page_config(page_title="Mundial 2026", page_icon="🏆", layout="wide")
 
 # --- REEMPLAZA CON TU LINK ---
-LINK_GOOGLE_SHEETS = "TU_LINK_AQUÍ"
+LINK_GOOGLE_SHEETS = https://docs.google.com/spreadsheets/d/1cqMfWRdFWjMnVcI_17VMFRblWYHcvbW2VjNS8XdKjwg/edit?gid=539674599#gid=539674599
 
 def cargar_datos(url):
     try:
