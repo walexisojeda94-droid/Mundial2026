@@ -105,4 +105,4 @@ else:
     st.info("Configura el enlace de Google Sheets en el código para comenzar.")
 
 st.divider()
-st.caption("⚽ ¡Suerte a todos! No vale enojarse 😤 | 🍳 El último en la tabla debe cocinar una comida | 🍮 El anteúltimo trae el postre o algo dulce 🍰")
+st.caption("⚽ ¡Suerte a todos! No vale enojarse 😤 | 🍳 El último en la tabla debe cocinar una comida | 🍮 El anteúltimo el postre o algo dulce 🍰")
