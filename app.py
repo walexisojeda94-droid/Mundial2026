@@ -10,10 +10,10 @@ st.set_page_config(page_title="Mundial 2026", page_icon="⚽", layout="wide")
 LINK_GOOGLE_SHEETS = "https://docs.google.com/spreadsheets/d/1cqMfWRdFWjMnVcI_17VMFRblWYHcvbW2VjNS8XdKjwg/edit?gid=539674599#gid=539674599"
 
 PREDICCIONES = {
-    "🟦 Jugador 1": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9slIKhMrDbrowDn4WbtYQ3UXQVpXe3Sj_ESe-13nvJ7yTG1CVwOh7MhaS7MQq7ZAjdD4yQTeQcNw0/pubhtml?gid=828118121&single=true",
-    "🟩 Jugador 2": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9slIKhMrDbrowDn4WbtYQ3UXQVpXe3Sj_ESe-13nvJ7yTG1CVwOh7MhaS7MQq7ZAjdD4yQTeQcNw0/pubhtml?gid=1804906006&single=true",
-    "🟨 Jugador 3": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9slIKhMrDbrowDn4WbtYQ3UXQVpXe3Sj_ESe-13nvJ7yTG1CVwOh7MhaS7MQq7ZAjdD4yQTeQcNw0/pubhtml?gid=2028438095&single=true",
-    "🟥 Jugador 4": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9slIKhMrDbrowDn4WbtYQ3UXQVpXe3Sj_ESe-13nvJ7yTG1CVwOh7MhaS7MQq7ZAjdD4yQTeQcNw0/pubhtml?gid=2007132205&single=true",
+    "🟩 Alexis": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9slIKhMrDbrowDn4WbtYQ3UXQVpXe3Sj_ESe-13nvJ7yTG1CVwOh7MhaS7MQq7ZAjdD4yQTeQcNw0/pubhtml?gid=828118121&single=true",
+    "🟦 Celina": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9slIKhMrDbrowDn4WbtYQ3UXQVpXe3Sj_ESe-13nvJ7yTG1CVwOh7MhaS7MQq7ZAjdD4yQTeQcNw0/pubhtml?gid=1804906006&single=true",
+    "🟨 Rocio": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9slIKhMrDbrowDn4WbtYQ3UXQVpXe3Sj_ESe-13nvJ7yTG1CVwOh7MhaS7MQq7ZAjdD4yQTeQcNw0/pubhtml?gid=2028438095&single=true",
+    "🟥 Santi": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9slIKhMrDbrowDn4WbtYQ3UXQVpXe3Sj_ESe-13nvJ7yTG1CVwOh7MhaS7MQq7ZAjdD4yQTeQcNw0/pubhtml?gid=2007132205&single=true",
 }
 
 # ─────────────────────────────────────────
@@ -36,7 +36,7 @@ st.markdown("""
 # ─────────────────────────────────────────
 # NAVEGACIÓN
 # ─────────────────────────────────────────
-PAGINAS = ["🏆 Ranking", "🟦 Jugador 1", "🟩 Jugador 2", "🟨 Jugador 3", "🟥 Jugador 4"]
+PAGINAS = ["🏆 Ranking", "🟩 Alexis", "🟦 Celi", "🟨 Rocio", "🟥 Santi"]
 
 if "pagina" not in st.session_state:
     st.session_state.pagina = "🏆 Ranking"
@@ -71,8 +71,8 @@ def cargar_datos(url):
             return None
 
 if st.session_state.pagina == "🏆 Ranking":
-    st.write("### 🏆")
     st.title("Gran Juego Mundial Familiar")
+    st.markdown("<h1 style='text-align:center;'>🏆</h1>", unsafe_allow_html=True)
     st.markdown("<h4 style='color: #888;'>Ranking en Vivo</h4>", unsafe_allow_html=True)
 
     if st.button("🔄 Actualizar Puntos Ahora"):
