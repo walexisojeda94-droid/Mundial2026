@@ -11,7 +11,7 @@ LINK_GOOGLE_SHEETS = "https://docs.google.com/spreadsheets/d/1cqMfWRdFWjMnVcI_17
 
 PREDICCIONES = {
     "🟩 Alexis": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9slIKhMrDbrowDn4WbtYQ3UXQVpXe3Sj_ESe-13nvJ7yTG1CVwOh7MhaS7MQq7ZAjdD4yQTeQcNw0/pubhtml?gid=828118121&single=true",
-    "🟦 Celina": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9slIKhMrDbrowDn4WbtYQ3UXQVpXe3Sj_ESe-13nvJ7yTG1CVwOh7MhaS7MQq7ZAjdD4yQTeQcNw0/pubhtml?gid=1804906006&single=true",
+    "🟦 Celi": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9slIKhMrDbrowDn4WbtYQ3UXQVpXe3Sj_ESe-13nvJ7yTG1CVwOh7MhaS7MQq7ZAjdD4yQTeQcNw0/pubhtml?gid=1804906006&single=true",
     "🟨 Rocio": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9slIKhMrDbrowDn4WbtYQ3UXQVpXe3Sj_ESe-13nvJ7yTG1CVwOh7MhaS7MQq7ZAjdD4yQTeQcNw0/pubhtml?gid=2028438095&single=true",
     "🟥 Santi": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9slIKhMrDbrowDn4WbtYQ3UXQVpXe3Sj_ESe-13nvJ7yTG1CVwOh7MhaS7MQq7ZAjdD4yQTeQcNw0/pubhtml?gid=2007132205&single=true",
 }
