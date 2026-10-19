@@ -10,6 +10,6 @@ Versión web estática preparada para Cloudflare Pages.
 - Framework preset: None
 - Production branch: `main`
 - Build command: dejar vacío (o `exit 0`)
-- Build output directory: `/` (raíz del repositorio)
+- Build output directory: `.` (raíz del repositorio)
 
 La función `/api/ranking` necesita que la hoja de resultados permita lectura al servidor mediante enlace. Si no es accesible, la página mostrará un mensaje de error en el ranking.
