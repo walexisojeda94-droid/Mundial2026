@@ -101,7 +101,7 @@
     <footer class="game-footer">⚽ ¡Suerte a todos! No vale enojarse 😤<br>🍳 El último en la tabla debe cocinar una comida · 🍮 El anteúltimo el postre o algo dulce 🍰</footer>
   </div>
 
-  <footer class="bellota-banner" aria-label="Bellota Soluciones Digitales">
+  <footer class="bellota-banner" id="bellota-banner" aria-label="Bellota Soluciones Digitales">
     <div class="bellota-inner">
       <a class="bellota-brand" href="https://bellotasoluciones.pages.dev/" target="_blank" rel="noopener noreferrer" aria-label="Visitar Bellota Soluciones Digitales">
         <span class="bellota-mark" aria-hidden="true">
@@ -143,6 +143,7 @@
       const isRanking = page === "ranking";
       rankingPage.hidden = !isRanking;
       predictionPage.hidden = isRanking;
+      document.getElementById("bellota-banner").hidden = !isRanking;
       if (!isRanking && PREDICCIONES[page]) {
         const selected = PREDICCIONES[page];
         predictionTitle.textContent = "Predicciones · " + selected.nombre;
